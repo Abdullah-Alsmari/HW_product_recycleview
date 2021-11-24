@@ -26,8 +26,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hw_product_recycleview.R
+import com.example.hw_product_recycleview.fragments.ProductListFragmentDirections
 import com.example.product.Model.Product
 
 
@@ -37,7 +39,7 @@ class ItemAdapter(
 ): RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
 
-    class ItemViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+    class ItemViewHolder(val view: View): RecyclerView.ViewHolder(view) {
         val buybutoon: Button = view.findViewById(R.id.buybutoon)
         val priceview: TextView = view.findViewById(R.id.priceproduct)
         val name: TextView = view.findViewById(R.id.productName)
@@ -63,9 +65,15 @@ class ItemAdapter(
         holder.buybutoon.setOnClickListener {
             if (item.quantityNumber > 0)
             Toast.makeText(context, "item available",Toast.LENGTH_SHORT).show()
-            val intent = Intent(context,ShopBuy ::class.java )
+           /* val intent = Intent(context,ShopBuy ::class.java )
             intent.putExtra("name", item.name)
-            it.context.startActivity(intent)
+            it.context.startActivity(intent)*/
+            val action =
+            ProductListFragmentDirections.actionProductListFragmentToPackagingDetailsFragment(
+                item.imageProdct.toString(),
+                item.name
+            )
+            holder.view.findNavController().navigate(action)
             
         }
 
